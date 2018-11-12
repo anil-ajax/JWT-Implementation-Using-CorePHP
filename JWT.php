@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * JWT Implementation Using CorePHP and JQuery
+ * @author Anil Kumar (https://github.com/anil-ajax)
+ * This code follow PSR standards (https://github.com/anil-ajax/psr-standards)
+ */
+
 $token_id    = base64_encode(mcrypt_create_iv(32)); // generate random but unique id
 $issued_at   = time();
 $not_before  = $issued_at + 10;            
-$expire     = $not_before + 3600;  	
+$expire      = $not_before + 3600;  	
 
 $data = [
     'iat'  => $issued_at,         	
@@ -17,11 +23,7 @@ $data = [
     ]
 ];
 
-//echo '<pre>';
-//print_r($data);
-
 // change array to JWT
-
 $key = 'somereandomkey'; // random key define in your config
 $secret_key = base64_decode($key);
 
@@ -33,12 +35,12 @@ $jwt = JWT::encode(
     );
     
 $unencoded_arr = ['jwt' => $jwt];
-echo json_encode($unencoded_arr);
-
+// echo json_encode($unencoded_arr); // just for testing
 ?>
 
 <script>
 // send request
+// following code used JQuery so make sure you include JQuery in your code
 $(function(){
     var store = store || {};
     
@@ -60,7 +62,6 @@ $(function(){
 });
 
 // get response
-
 $("#get_resp_btn").click(function(e){
         
         $.ajax({
